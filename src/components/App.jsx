@@ -43,14 +43,12 @@ const App = () => {
     dispatch(setFilter(event.target.value));
   };
 
-  const filteredContacts = contacts.filter(contact =>
-    contact.name?.toLowerCase().includes(filter.toLowerCase())
-  );
-
   const handleDelete = id => {
     dispatch(deleteContact(id));
   };
-
+  const filteredContacts = contacts.filter(contact =>
+    contact.name?.toLowerCase().includes(filter.toLowerCase())
+  );
   return (
     <>
       <h1>Phonebook</h1>
@@ -62,5 +60,4 @@ const App = () => {
     </>
   );
 };
-
 export default App;
