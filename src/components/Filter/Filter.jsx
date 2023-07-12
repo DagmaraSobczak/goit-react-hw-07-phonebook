@@ -28,7 +28,7 @@ const Filter = ({ filteredContacts }) => {
 };
 
 Filter.propTypes = {
-  filteredContacts: PropTypes.func,
+  filteredContacts: PropTypes.func, // Zmieniono nazwę propa z onFilterChange na filteredContacts
 };
 
 export default Filter;

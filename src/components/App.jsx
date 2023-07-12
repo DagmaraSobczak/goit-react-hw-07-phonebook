@@ -11,7 +11,7 @@ import { getContacts, addContact, deleteContact } from '../redux/operations';
 
 const App = () => {
   const dispatch = useDispatch();
-  const isLoading = useSelector(isLoading);
+  const loading = useSelector(isLoading);
   const error = useSelector(getError);
   const contacts = useSelector(getContacts);
   const filter = useSelector(state => state.filters);
@@ -56,7 +56,7 @@ const App = () => {
       <h1>Phonebook</h1>
       <ContactForm onFormSubmit={handleFormSubmit} />
       <Filter filteredContacts={handleFilterChange} />
-      {isLoading && !error && <b>Request in progress...</b>}
+      {loading && !error && <b>Request in progress...</b>}
       <h2>Contacts</h2>
       <ContactsList contacts={filteredContacts} onDelete={handleDelete} />
     </>
