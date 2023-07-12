@@ -20,29 +20,30 @@ const contactsSlice = createSlice({
 
   extraReducers: {
     [getContacts.pending]: handlePending,
-    [getContacts.fulfilled](state, { payload }) {
-      state.isLoading = false;
-      state.error = null;
-      state.items = payload;
-    },
-    [getContacts.rejected]: handleRejected,
     [addContact.pending]: handlePending,
-    [addContact.fulfilled](state, { payload }) {
+    [deleteContact.pending]: handlePending,
+    [getContacts.rejected]: handleRejected,
+    [addContact.rejected]: handleRejected,
+    [deleteContact.rejected]: handleRejected,
+    [getContacts.fulfilled](state, action) {
       state.isLoading = false;
       state.error = null;
-      state.items.push(payload);
+      state.items = action.payload;
     },
-    [addContact.rejected]: handleRejected,
-    [deleteContact.pending]: handlePending,
-    [deleteContact.fulfilled](state, { payload }) {
+    [addContact.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      state.items.push(action.payload);
+    },
+    [deleteContact.fulfilled](state, action) {
       state.isLoading = false;
       state.error = null;
       const index = state.items.findIndex(
-        contacts => contacts.id === payload.id
+        contact => contact.id === action.payload
       );
       state.items.splice(index, 1);
     },
   },
 });
 
-export const tasksReducer = contactsSlice.reducer;
+export const contactsReducer = contactsSlice.reducer;

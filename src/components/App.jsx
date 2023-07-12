@@ -1,16 +1,66 @@
-export const App = () => {
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { nanoid } from 'nanoid';
+import ContactForm from './ContactForm/ContactForm';
+import ContactsList from './ContactsList/ContactsList';
+import Filter from './Filter/Filter';
+import { isLoading, getError } from '../redux/selectors';
+
+import { setFilter } from '../redux/filtersSlice';
+import { getContacts, addContact, deleteContact } from '../redux/operations';
+
+const App = () => {
+  const dispatch = useDispatch();
+  const isLoading = useSelector(isLoading);
+  const error = useSelector(getError);
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(state => state.filters);
+
+  useEffect(() => {
+    dispatch(getContacts());
+  }, [dispatch]);
+
+  const handleFormSubmit = (name, number) => {
+    let existContact = contacts.find(
+      contact => name.toLowerCase() === contact.name.toLowerCase()
+    );
+
+    if (existContact) {
+      alert(`${name} is already in contacts.`);
+      return;
+    }
+
+    const newContact = {
+      id: nanoid(),
+      name: name,
+      number: number,
+    };
+
+    dispatch(addContact(newContact));
+  };
+
+  const handleFilterChange = event => {
+    dispatch(setFilter(event.target.value));
+  };
+
+  const filteredContacts = contacts.filter(contact =>
+    contact.name?.toLowerCase().includes(filter.toLowerCase())
+  );
+
+  const handleDelete = id => {
+    dispatch(deleteContact(id));
+  };
+
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework template
-    </div>
+    <>
+      <h1>Phonebook</h1>
+      <ContactForm onFormSubmit={handleFormSubmit} />
+      <Filter filteredContacts={handleFilterChange} />
+      {isLoading && !error && <b>Request in progress...</b>}
+      <h2>Contacts</h2>
+      <ContactsList contacts={filteredContacts} onDelete={handleDelete} />
+    </>
   );
 };
+
+export default App;
