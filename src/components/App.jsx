@@ -13,7 +13,7 @@ const App = () => {
   const dispatch = useDispatch();
   const loading = useSelector(isLoading);
   const error = useSelector(getError);
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(state => state.contacts.items);
   const filter = useSelector(state => state.filters);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const App = () => {
     dispatch(deleteContact(id));
   };
   const filteredContacts = contacts.filter(contact =>
-    contact.name?.toLowerCase().includes(filter.toLowerCase())
+    contact.name?.toLowerCase().includes(filter?.toLowerCase() || '')
   );
   return (
     <>
