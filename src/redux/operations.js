@@ -33,7 +33,7 @@ export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
   async (id, thunkAPI) => {
     try {
-      const response = await axios.delete(`/contacts/${id}`);
+      await axios.delete(`/contacts/${id}`);
       return id;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.message);
