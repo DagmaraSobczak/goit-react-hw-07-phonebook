@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { createAction } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFilter } from '../../redux/filtersSlice';
 
 import css from './Filter.module.css';
 
-const setFilter = createAction('filter/setFilter');
-
 const Filter = ({ filteredContacts }) => {
   const dispatch = useDispatch();
+
+  const filter = useSelector(state => state.filter);
 
   const handleFilterChange = event => {
     const filterValue = event.target.value;
@@ -21,6 +21,7 @@ const Filter = ({ filteredContacts }) => {
         className={css.input}
         type="text"
         name="filter"
+        value={filter}
         onChange={handleFilterChange}
       />
     </div>
@@ -28,7 +29,7 @@ const Filter = ({ filteredContacts }) => {
 };
 
 Filter.propTypes = {
-  filteredContacts: PropTypes.func, // Zmieniono nazwę propa z onFilterChange na filteredContacts
+  filteredContacts: PropTypes.func,
 };
 
 export default Filter;

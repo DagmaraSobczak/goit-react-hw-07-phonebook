@@ -14,7 +14,7 @@ const App = () => {
   const loading = useSelector(isLoading);
   const error = useSelector(getError);
   const contacts = useSelector(state => state.contacts.items);
-  const filter = useSelector(state => state.filters);
+  const filter = useSelector(state => state.filter);
 
   useEffect(() => {
     dispatch(getContacts());
@@ -46,18 +46,21 @@ const App = () => {
   const handleDelete = id => {
     dispatch(deleteContact(id));
   };
+
   const filteredContacts = contacts.filter(contact =>
     contact.name?.toLowerCase().includes(filter?.toLowerCase() || '')
   );
+
   return (
     <>
       <h1>Phonebook</h1>
       <ContactForm onFormSubmit={handleFormSubmit} />
-      <Filter filteredContacts={handleFilterChange} />
+      <Filter handleFilterChange={handleFilterChange} />{' '}
       {loading && !error && <b>Request in progress...</b>}
       <h2>Contacts</h2>
       <ContactsList contacts={filteredContacts} onDelete={handleDelete} />
     </>
   );
 };
+
 export default App;
